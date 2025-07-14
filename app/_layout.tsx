@@ -9,6 +9,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { default as appTheme } from "@/themed/theme.json";
+import { Agent2AgentProvider } from '@/context/agentContext';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -22,6 +23,8 @@ export default function RootLayout() {
 
   return (
     <>
+    <Agent2AgentProvider>
+
      <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={{...eva.light, ...appTheme}}>
          {/* theme={{ ...evaDefault[theme], ...secuwaTheme }} */}
@@ -34,6 +37,8 @@ export default function RootLayout() {
       <StatusBar style="auto" />
     </ThemeProvider>
     </ApplicationProvider>
+    </Agent2AgentProvider>
+
     </>
 
 

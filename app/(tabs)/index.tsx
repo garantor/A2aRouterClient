@@ -15,12 +15,8 @@ import { Chat } from "@/components/Chat";
 import { Header } from "@/components/Header";
 
 const SwapScreen: React.FC = () => {
-  const [fromToken, setFromToken] = useState("");
-  const [toToken, setToToken] = useState("");
-  const [amount, setAmount] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const tokens = ["ETH", "USDC", "DAI", "WBTC"];
+
 
   return (
     <Layout
@@ -36,7 +32,7 @@ const SwapScreen: React.FC = () => {
       <Header />
 
       <Layout style={{ flexDirection: "row", flex: 1, gap: 16 }}>
-        <Card style={{ flex: 1, maxWidth: 600, borderWidth:0 }}>
+        <Card style={{ flex: 1,  borderWidth:0 }}>
           <Chat />
         </Card>
         <Divider style={{ width: 1, height:'100%' }} />
@@ -45,7 +41,6 @@ const SwapScreen: React.FC = () => {
           <SwapSummary />
         </Layout>
 
-        {/* Right Panel - Chat */}
       </Layout>
     </Layout>
   );
