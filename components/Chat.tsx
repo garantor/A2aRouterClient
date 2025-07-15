@@ -44,7 +44,7 @@ export const Chat: React.FC = () => {
       const initializeClient = async () => {
         const config = {
           agentId: 'your-agent-id',
-          apiKey: 'AIzaSyCU_iZ2BWRKyZIeZM95JrSzIxPsioN0jpk', 
+          apiKey: process.env.EXPO_PUBLIC_GEMINEI_API_KEY || 'your-api-key',
           baseUrl: 'http://localhost:3000',
           enableWebSocket: false
         };
