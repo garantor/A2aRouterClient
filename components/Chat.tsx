@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ScrollView } from 'react-native';
 import { ChatInput } from './ChatInput';
 import { Layout, Text, Button, Select, SelectItem, IndexPath } from '@ui-kitten/components';
@@ -23,10 +23,12 @@ export const Chat: React.FC = () => {
   ]);
 
   const [selectedAgentIndex, setSelectedAgentIndex] = useState<IndexPath>(new IndexPath(0));
-  const [isAgent2AgentMode, setIsAgent2AgentMode] = useState(false);
+  const [isAgent2AgentMode, setIsAgent2AgentMode] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
   
   const { client, isConnected, sendToAgent, initialize } = useAgent2Agent();
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
 
   // Sample agent IDs - replace with actual available agents
   const availableAgents = [
@@ -55,6 +57,13 @@ export const Chat: React.FC = () => {
       initializeClient();
     }
   }, [isInitialized, initialize]);
+
+    useEffect(() => {
+    // Scroll to the bottom when messages change
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+
 
   const handleSendMessage = async (text: string) => {
     console.log('Sending message:', text);
@@ -133,39 +142,37 @@ export const Chat: React.FC = () => {
   };
 
 return (
-  <Layout style={{ flex: 1, padding: 16, borderRadius: 8 }}>
-    <Text category='h6' style={{ marginBottom: 16 }}>AI Assistant</Text>
+    <Layout style={{ flex: 1, padding: 0, borderRadius: 8, flexDirection: 'column', }}>
+    <Text category='h6' style={{ margin: 16, marginBottom: 0 }}>AI Assistant</Text>
     
     {/* Agent2Agent Controls */}
     <Layout style={{ marginBottom: 16, padding: 12, backgroundColor: '#F7F9FC', borderRadius: 8 }}>
       <Text category='s1' style={{ marginBottom: 8 }}>
         Agent2Agent: {isConnected ? '🟢 Connected' : '🔴 Disconnected'}
       </Text>
-      
-      <Button
-        size='small'
-        status={isAgent2AgentMode ? 'success' : 'basic'}
-        onPress={() => setIsAgent2AgentMode(!isAgent2AgentMode)}
-        style={{ marginBottom: 8 }}
+      <Text
+        category='label'
+        style={{
+          marginBottom: 8,
+          color: isAgent2AgentMode ? '#00C48C' : '#FF3D71',
+          fontWeight: 'bold',
+          fontSize: 15,
+          letterSpacing: 1,
+        }}
       >
-        {isAgent2AgentMode ? 'Agent Mode ON' : 'Agent Mode OFF'}
-      </Button>
-      
-      {isAgent2AgentMode && (
-        <Select
-          selectedIndex={selectedAgentIndex}
-          onSelect={index => setSelectedAgentIndex(index as IndexPath)}
-          placeholder='Select Agent'
-          size='small'
-        >
-          {availableAgents.map((agent, index) => (
-            <SelectItem key={index} title={agent} />
-          ))}
-        </Select>
-      )}
+        Agent Mode ON
+      </Text>
+      {/* <Text category='c1' appearance='hint'>
+        Using agent: <Text category='c1'>routing-specialist</Text>
+      </Text> */}
     </Layout>
-    
-   <ScrollView style={{ flex: 1, marginBottom: 16 }}>
+
+   <ScrollView
+        style={{ flex: 1, margin: 16, marginBottom: 0 }}
+        contentContainerStyle={{ paddingBottom: 16 }}
+        keyboardShouldPersistTaps="handled"
+      >
+
   {messages.map((message) => {
     const isUser = message.sender === 'user';
     const isAgent = message.sender === 'agent' || message.sender === 'ai';
@@ -197,7 +204,6 @@ return (
               marginRight: 8,
             }}
           >
-            {/* For React Native, use Image component */}
             <img
               src={avatarUrl}
               alt="avatar"
@@ -267,9 +273,13 @@ return (
       </Layout>
     );
   })}
+
+   <div ref={messagesEndRef} />
 </ScrollView>
     
-    <ChatInput onSend={handleSendMessage} />
+    <Layout style={{ padding: 16,  }}>
+      <ChatInput onSend={handleSendMessage} />
+    </Layout>
   </Layout>
 );
 }

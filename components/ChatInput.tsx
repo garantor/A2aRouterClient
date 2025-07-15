@@ -26,13 +26,13 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
   };
 
   return (
-    <Layout style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 8 }}>
+    <Layout style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 8, justifyContent: 'center', alignContent:'center' }}>
       <Input
         style={{ flex: 1 }}
         placeholder="Type your message..."
         value={message}
         onChangeText={setMessage}
-        // on={handleKeyPress}
+        onKeyPress={handleKeyPress}
         multiline
       />
       <Button

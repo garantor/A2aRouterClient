@@ -31,13 +31,13 @@ const SwapScreen: React.FC = () => {
     >
       <Header />
 
-      <Layout style={{ flexDirection: "row", flex: 1, gap: 16 }}>
-        <Card style={{ flex: 1,  borderWidth:0 }}>
+      <Layout style={{ flexDirection: "row", flex: 1, gap: 16,}}>
+        {/* <Card style={{ flex: 1,  borderWidth:0, backgroundColor:'teal' }}> */}
           <Chat />
-        </Card>
+        {/* </Card> */}
         <Divider style={{ width: 1, height:'100%' }} />
 
-        <Layout style={{}}>
+        <Layout style={{flex:1,}}>
           <SwapSummary />
         </Layout>
 
