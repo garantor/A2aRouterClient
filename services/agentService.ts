@@ -45,7 +45,7 @@ export class Agent2AgentClient {
 
   async sendMessage(message: Agent2AgentMessage): Promise<Agent2AgentResponse> {
     try {
-      const response = await fetch(`${this.config.baseUrl}/api/chat`, {
+      const response = await fetch(`${this.config.baseUrl}/agentSwap`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export class Agent2AgentClient {
   // Simple message sender that matches your Postman format
   async sendChatMessage(message: string): Promise<Agent2AgentResponse> {
     try {
-      const response = await fetch(`${this.config.baseUrl}/api/chat`, {
+      const response = await fetch(`${this.config.baseUrl}/agentSwap`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
